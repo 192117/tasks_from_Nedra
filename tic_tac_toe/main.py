@@ -1,91 +1,113 @@
 import random
 
-board = [['_', '_', '_'],
-         ['_', '_', '_'],
-         ['_', '_', '_']]
+
+def my_print(board):
+    for row in board:
+        print(row)
+    print()
+
 
 def moving(board):
-    for row in board:
-        if '_' in row:
-            return True
+    for row in range(3):
+        for col in range(3):
+            if (board[row][col] == '_'):
+                return True
     return False
 
 
 def check_win(board, player1, player2):
-    for row in range(0, 3):
-        if board[row][0] == board[row][1] and board[row][1] == board[row][2]:
-            if board[row][0] == player1:
+
+    for row in range(3):
+        if (board[row][0] == board[row][1] and board[row][1] == board[row][2]):
+            if (board[row][0] == player1):
                 return 10
-            elif board[row][0] == player2:
+            elif (board[row][0] == player2):
                 return -10
 
-    for col in range(0, 3):
-        if board[0][col] == board[1][col] and board[1][col] == board[2][col]:
-            if board[0][col] == player1:
+    for col in range(3):
+        if (board[0][col] == board[1][col] and board[1][col] == board[2][col]):
+            if (board[0][col] == player1):
                 return 10
-            elif board[0][col] == player2:
+            elif (board[0][col] == player2):
                 return -10
 
     if (board[0][0] == board[1][1] and board[1][1] == board[2][2]):
-        if board[0][0] == player1:
+        if (board[0][0] == player1):
             return 10
-        elif board[0][0] == player2:
+        elif (board[0][0] == player2):
             return -10
 
     if (board[0][2] == board[1][1] and board[1][1] == board[2][0]):
-        if board[0][2] == player1:
+        if (board[0][2] == player1):
             return 10
-        elif board[0][2] == player2:
+        elif (board[0][2] == player2):
             return -10
+
     return 0
 
 
-def minimax(board, ismax, player1, player2):
+def minimax(board, isMax, player1, player2):
     score = check_win(board, player1, player2)
 
-    if score == 10:
+    if (score == 10):
         return score
 
-    if score == -10:
+    if (score == -10):
         return score
 
-    if moving(board) is False:
+    if (moving(board) == False):
         return 0
 
-    if ismax:
-        best = - 1500
-        for row in board:
-            for col in row:
-                if board[row][col] == '_':
+    if (isMax):
+        best = -1000
+        for row in range(3):
+            for col in range(3):
+                if (board[row][col] == '_'):
                     board[row][col] = player1
-                    best = max(best, minimax(board, not ismax, player1, player2))
+                    best = max(best, minimax(board, not isMax, player1, player2))
                     board[row][col] = '_'
         return best
     else:
-        best = 1500
-        for row in board:
-            for col in row:
-                if board[row][col] == '_':
+        best = 1000
+        for row in range(3):
+            for col in range(3):
+                if (board[row][col] == '_'):
                     board[row][col] = player2
-                    best = min(best, minimax(board, not ismax, player1, player2))
+                    best = min(best, minimax(board, not isMax, player1, player2))
                     board[row][col] = '_'
         return best
 
 
-def best(board, player1, player2):
-    bestVal = -1500
+def game(board, player1, player2):
+    bestVal = -1000
     bestMove = (-1, -1)
-    for row in board:
-        for col in row:
-            if board[row][col] == '_':
+    for row in range(3):
+        for col in range(3):
+            if (board[row][col] == '_'):
                 board[row][col] = player1
-                currentVal = minimax(board, True, player1, player2)
+                moveVal = minimax(board, False, player1, player2)
                 board[row][col] = '_'
-                if currentVal > bestVal:
-                    bestVal = currentVal
+                if (moveVal > bestVal):
                     bestMove = (row, col)
-    return bestMove
+                    bestVal = moveVal
+    board[bestMove[0]][bestMove[1]] = player1
 
 
+board = [
+    ['_', '_', '_'],
+    ['_', '_', '_'],
+    ['_', '_', '_']]
 
 
+if __name__ == '__main__':
+    player, opponent = 'x', 'o'
+    board[random.randint(0,2)][random.randint(0,2)] = opponent
+    my_print(board)
+    while True:
+        value = check_win(board, player, opponent)
+        if moving(board) is False:
+            break
+        game(board, player, opponent)
+        my_print(board)
+        game(board, opponent, player)
+        my_print(board)
