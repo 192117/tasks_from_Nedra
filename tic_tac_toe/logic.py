@@ -8,6 +8,9 @@ def my_print(board):
 
 
 def moving(board):
+    '''
+        Проверка возможности сделать ход.
+    '''
     for row in range(3):
         for col in range(3):
             if (board[row][col]['text'] == ' '):
@@ -16,7 +19,10 @@ def moving(board):
 
 
 def check_win(board, player1, player2):
-
+    '''
+        Проверка на конец игры (победа/проигрыш/ничья). Возвращает 10 очков, если победил player1, -10 очков для player2,
+        при ничье вернет 0 очков.
+    '''
     for row in range(3):
         if (board[row][0]['text'] == board[row][1]['text'] and board[row][1]['text'] == board[row][2]['text']):
             if (board[row][0]['text'] == player1):
@@ -47,6 +53,10 @@ def check_win(board, player1, player2):
 
 
 def minimax(board, isMax, player1, player2):
+    '''
+        Функция, реализующая алгоритм максимум и минимум для крестики-нолики. При переборе всех возможных комбинаций
+        игры. Возвращает количество очков в конце игры для каждой комбинации.
+    '''
     score = check_win(board, player1, player2)
 
     if (score == 10):
@@ -79,6 +89,9 @@ def minimax(board, isMax, player1, player2):
 
 
 def game(board, player1, player2):
+    '''
+        Функция, которая выполняет ход, который приводит к победе/ничье player1.
+    '''
     bestVal = -1000
     bestMove = (-1, -1)
     for row in range(3):
@@ -105,10 +118,9 @@ board = [
 
 if __name__ == '__main__':
     player, opponent = 'x', 'o'
-    board[random.randint(0,2)][random.randint(0,2)] = opponent
+    board[random.randint(0,2)][random.randint(0,2)] = opponent # Первый ход делается рандомом для opponent.
     my_print(board)
     while True:
-        value = check_win(board, player, opponent)
         if moving(board) is False:
             break
         game(board, player, opponent)
