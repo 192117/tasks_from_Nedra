@@ -1,8 +1,5 @@
 import tkinter as tk
-from tic_tac_toe.logic import *
-
-
-
+from logic import *
 
 def new_game():
     '''
