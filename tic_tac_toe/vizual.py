@@ -13,7 +13,7 @@ def new_game():
 def click(row, col):
     '''
         Запускает игру, после того, как пользователь выберет, куда поставить первым 0. Логика игры берется из модуля
-        logic.py . После выбора точки дальше играет компьютер сам с собой.
+        logic.py . После выбора точки дальше играет компьютер сам с собой. Выводит строчку с label с результатом игры.
     '''
     player1 = 'X'
     player2 = 'O'
@@ -23,6 +23,14 @@ def click(row, col):
             break
         game(field, player1, player2)
         game(field, player2, player1)
+    winner = check_win(field, player1, player2)
+    if winner == 10:
+        lb = tk.Label(window, text='Победитель: {}'.format(player1))
+    elif winner == -10:
+        lb = tk.Label(window, text='Победитель: {}'.format(player2))
+    else:
+        lb = tk.Label(window, text='Ничья')
+    lb.grid(row=5, column=0, columnspan=3, sticky='nsew')
 
 if __name__ == '__main__':
     window = tk.Tk()
@@ -38,7 +46,7 @@ if __name__ == '__main__':
             button.grid(row=row, column=col, sticky='nsew')
             line.append(button)
         field.append(line)
-    new_button = tk.Button(window, text='new game', command=new_game)
+    new_button = tk.Button(window, text='Новая игра', command=new_game)
     new_button.grid(row=3, column=0, columnspan=3, sticky='nsew')
 
     window.mainloop()

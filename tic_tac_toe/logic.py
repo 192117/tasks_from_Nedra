@@ -103,10 +103,6 @@ def game(board, player1, player2):
                 if (moveVal > bestVal):
                     bestMove = (row, col)
                     bestVal = moveVal
-                    break
-        else:
-            continue
-        break
     board[bestMove[0]][bestMove[1]]['text'] = player1
 
 
