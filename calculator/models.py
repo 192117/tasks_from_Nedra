@@ -3,7 +3,7 @@ from fastapi import Query
 
 class CalcGet(BaseModel):
     '''
-        Модель для POST запросов на /calc/{value} .
+        Модель для GET запросов на /calc/{value} .
     '''
 
     value: str = Query(None)
